@@ -1,0 +1,63 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 4d97193039d333d4eb20976632216d26.dir
+      size: 351930
+      nfiles: 3
+    - path: params.yaml
+      hash: md5
+      md5: abf6967924da24e99b70dab34ba40486
+      size: 314
+    - path: src/common.py
+      hash: md5
+      md5: 48da945db3eb7acb90005261b914f27c
+      size: 1061
+    - path: src/train.py
+      hash: md5
+      md5: ebee73b82ca821e8a946c628cdec51d7
+      size: 7891
+    outs:
+    - path: models/model_meta.json
+      hash: md5
+      md5: bfea59d327ab8dd12e7971195961d69e
+      size: 1304
+    - path: models/model_red.joblib
+      hash: md5
+      md5: 01340960dff4dd7a3d10db69c333fe33
+      size: 199320
+    - path: models/model_white.joblib
+      hash: md5
+      md5: e71edb6171c9634de3220abc21567765
+      size: 265233
+    - path: models/reference_red.csv
+      hash: md5
+      md5: 23bd147a0a6261530dc773889a7be89a
+      size: 78194
+    - path: models/reference_white.csv
+      hash: md5
+      md5: 69868a57d47c40e82ad2bc433260f02b
+      size: 232338
+    - path: reports/metrics.json
+      hash: md5
+      md5: 358b5c46c87e627146d8802086a70771
+      size: 857
+    - path: reports/permutation_importance_red.csv
+      hash: md5
+      md5: c3e642c355f21c65f8f177b9e4907b6f
+      size: 636
+    - path: reports/permutation_importance_red.png
+      hash: md5
+      md5: 5db339e6ff601d92a7ab0c0a25d492f3
+      size: 40115
+    - path: reports/permutation_importance_white.csv
+      hash: md5
+      md5: ef90138165e04a7bad7c3fdcd2097735
+      size: 633
+    - path: reports/permutation_importance_white.png
+      hash: md5
+      md5: 78b5682318de761f98258e895db01a11
+      size: 40457
