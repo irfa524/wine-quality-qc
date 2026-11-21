@@ -1,3 +1,4 @@
 * text=auto eol=lf
 *.joblib binary
 *.png binary
+dvc-storage/** binary
