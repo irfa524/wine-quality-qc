@@ -1,0 +1,31 @@
+stages:
+  train:
+    cmd: python -m src.train
+    deps:
+      - data/raw
+      - src/train.py
+      - src/common.py
+      - params.yaml
+    outs:
+      # small files -> stay in Git so Streamlit Cloud can read them without DVC
+      - models/model_red.joblib:
+          cache: false
+      - models/model_white.joblib:
+          cache: false
+      - models/reference_red.csv:
+          cache: false
+      - models/reference_white.csv:
+          cache: false
+      - models/model_meta.json:
+          cache: false
+      - reports/permutation_importance_red.csv:
+          cache: false
+      - reports/permutation_importance_white.csv:
+          cache: false
+      - reports/permutation_importance_red.png:
+          cache: false
+      - reports/permutation_importance_white.png:
+          cache: false
+    metrics:
+      - reports/metrics.json:
+          cache: false

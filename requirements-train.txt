@@ -1,0 +1,6 @@
+-r app/requirements.txt
+mlflow>=3.0
+dvc>=3.50
+matplotlib>=3.8
+pyyaml>=6.0
+pytest>=8.0

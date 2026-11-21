@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+mlruns/
+mlartifacts/
+.dvc/config.local
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store
+.streamlit/secrets.toml
+mlflow.db

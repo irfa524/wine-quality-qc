@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  # MLflow tracking server (e.g. DagsHub). If the secret is missing (forks) it falls back to local sqlite.
+  MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+  MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USER }}
+  MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
+
+jobs:
+  test-train-log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-train.txt
+
+      - run: pip install -r requirements-train.txt
+
+      - name: Fetch DVC data
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user "${{ secrets.DAGSHUB_USER }}"
+          dvc remote modify origin --local password "${{ secrets.DAGSHUB_TOKEN }}"
+          dvc pull data/raw.dvc
+
+      - name: Unit tests
+        run: pytest -q
+
+      - name: Check committed model is up to date with data/params/code
+        run: |
+          out=$(dvc status)
+          echo "$out"
+          echo "$out" | grep -q "Data and pipelines are up to date" \
+            || (echo "::error::Pipeline is stale. Run 'dvc repro' locally and commit models/, reports/, dvc.lock" && exit 1)
+
+      - name: Re-train and log MLflow run for this commit
+        run: python -m src.train
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: model-bundle-${{ github.sha }}
+          path: |
+            models/
+            reports/
