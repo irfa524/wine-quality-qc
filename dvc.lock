@@ -23,8 +23,8 @@ stages:
     outs:
     - path: models/model_meta.json
       hash: md5
-      md5: bfea59d327ab8dd12e7971195961d69e
-      size: 1304
+      md5: 073b6c830a5eab9e3e89a712f99e9407
+      size: 1298
     - path: models/model_red.joblib
       hash: md5
       md5: 01340960dff4dd7a3d10db69c333fe33
